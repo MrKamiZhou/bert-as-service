@@ -132,6 +132,8 @@ def optimize_graph(args, logger=None):
                 False)
         tmp_file = tempfile.NamedTemporaryFile('w', delete=False, dir=args.graph_tmp_dir).name
         logger.info('write graph to a tmp file: %s' % tmp_file)
+        with tf.gfile.FastGFile('./model.pb', 'wb') as f:
+            f.write(tmp_g.SerializeToString())
         with tf.gfile.GFile(tmp_file, 'wb') as f:
             f.write(tmp_g.SerializeToString())
         return tmp_file
